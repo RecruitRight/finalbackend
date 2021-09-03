@@ -2,12 +2,14 @@ package com.gcp.recruitRight.Impls;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gcp.recruitRight.Repository.UploadProfileRepository;
 import com.gcp.recruitRight.Requests.UploadProfileRequest;
-import com.gcp.recruitRight.models.UserProfiles;
+import com.gcp.recruitRight.models.UserProfile;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
@@ -16,21 +18,19 @@ public class UploadProfileImpl {
 	
 	@Autowired
 	UploadProfileRepository uploadProfileRepository;
-	
-	@Autowired
-	SessionManagement sessionManagement;
-	
+
 	@Autowired
 	LoginServiceImpl loginServiceImpl;
 	
+	Logger log = LoggerFactory.getLogger(UploadProfileImpl.class);
+	
 	public Boolean uploadProfile(UploadProfileRequest uploadProfileRequest) throws Exception{
 		
-		System.out.println("Entering uploadProfileImpl");
+		log.info("Entering UploadProfileImpl.uploadProfiles()");
 		
 		try {
 		if(loginServiceImpl.validate(SessionManagement.getUserId(uploadProfileRequest.getSessionId()),uploadProfileRequest.getSessionId()))
 		{
-			System.out.println("Entering after validation");
 			String userId;
 			String contact;
 			String name;
@@ -68,7 +68,7 @@ public class UploadProfileImpl {
 				
 				pdfReader.close();
 				
-				List<UserProfiles> profiles = uploadProfileRepository.findUserProfiles(userId);
+				List<UserProfile> profiles = uploadProfileRepository.findUserProfiles(userId);
 				
 				if(profiles.size()!=0) {
 					status += uploadProfileRepository.updateUserProfiles(userId,userProfile);
@@ -76,14 +76,15 @@ public class UploadProfileImpl {
 				else
 					status += uploadProfileRepository.insertIntoUserProfiles(userId,name,contact,userProfile);
 			}
-			if(status == userProfiles.size())
+			if(status == userProfiles.size()) {
+				log.info("Exiting UploadProfileImpl.uploadProfile()");
 				return true;
+			}
 			return false;	
 		}
-		else
-			throw new Exception("Invalid session.");
 	} catch(Exception e) {
 		throw new Exception("Invalid session");
 	}
+	return false;
 }
 }

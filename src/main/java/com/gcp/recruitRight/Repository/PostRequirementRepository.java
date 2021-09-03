@@ -18,8 +18,8 @@ public class PostRequirementRepository {
 	
 	public int postRequirement(PostRequirementRequest postRequirementRequest) {
 		
-		String sql = "INSERT INTO REQUIREMENTS(userId,domain,jobRole,jobRoleType,techStack,experience) values(?,?,?,?,?,?)";
-		return jdbcTemplate.update(sql,postRequirementRequest.getSessionId(),postRequirementRequest.getDomain(),postRequirementRequest.getJobRole(),postRequirementRequest.getJobRoleType(),postRequirementRequest.getTechStack(),postRequirementRequest.getExperience());
+		String sql = "INSERT INTO REQUIREMENTS(userId,isu,subIsu,projectName,jobRole,jobRoleType,techStack,experience) values(?,?,?,?,?,?,?,?)";
+		return jdbcTemplate.update(sql,SessionManagement.getUserId(postRequirementRequest.getSessionId()),postRequirementRequest.getIsu(),postRequirementRequest.getSubIsu(),postRequirementRequest.getProjectName(),postRequirementRequest.getJobRole(),postRequirementRequest.getJobRoleType(),postRequirementRequest.getTechStack(),postRequirementRequest.getExperience());
 	}
 	
 }

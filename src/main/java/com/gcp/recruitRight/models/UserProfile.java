@@ -1,13 +1,13 @@
 package com.gcp.recruitRight.models;
 
-import java.sql.Blob;
+import java.io.ByteArrayInputStream;
 
-public class UserProfiles {
+public class UserProfile {
 	
 	private String userId;
 	private String name;
 	private String contact;
-	private Blob resume;
+	private ByteArrayInputStream resume;
 	
 	public String getUserId() {
 		return userId;
@@ -27,12 +27,13 @@ public class UserProfiles {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
-	public Blob getResume() {
+	public ByteArrayInputStream getResume() {
 		return resume;
 	}
-	public void setResume(Blob resume) {
+	public void setResume(ByteArrayInputStream resume) {
 		this.resume = resume;
 	}
+	
 	
 	
 }

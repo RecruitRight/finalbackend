@@ -15,9 +15,6 @@ public class PostRequirementImpl {
 	@Autowired
 	LoginServiceImpl loginServiceImpl;
 	
-	@Autowired
-	SessionManagement sessionManagement;
-	
 	public Boolean postRequirement(PostRequirementRequest postRequirementRequest) throws Exception{
 		try {
 		if(loginServiceImpl.validate(SessionManagement.getUserId(postRequirementRequest.getSessionId()),postRequirementRequest.getSessionId()))

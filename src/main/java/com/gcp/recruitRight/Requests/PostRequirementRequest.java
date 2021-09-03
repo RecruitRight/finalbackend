@@ -1,20 +1,17 @@
 package com.gcp.recruitRight.Requests;
 
-import java.util.List;
 
 public class PostRequirementRequest {
 	
 	private String sessionId;
-	private String domain;
+	private String isu;
+	private String subIsu;
+	private String projectName;
 	private String jobRole;
 	private String jobRoleType;
-	private List<String> techStack;
+	private String techStack;
 	private double experience;
 	
-	public PostRequirementRequest() {
-		
-	}
-
 	public String getSessionId() {
 		return sessionId;
 	}
@@ -23,12 +20,28 @@ public class PostRequirementRequest {
 		this.sessionId = sessionId;
 	}
 
-	public String getDomain() {
-		return domain;
+	public String getIsu() {
+		return isu;
 	}
 
-	public void setDomain(String domain) {
-		this.domain = domain;
+	public void setIsu(String isu) {
+		this.isu = isu;
+	}
+
+	public String getSubIsu() {
+		return subIsu;
+	}
+
+	public void setSubIsu(String subIsu) {
+		this.subIsu = subIsu;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 
 	public String getJobRole() {
@@ -47,11 +60,11 @@ public class PostRequirementRequest {
 		this.jobRoleType = jobRoleType;
 	}
 
-	public List<String> getTechStack() {
+	public String getTechStack() {
 		return techStack;
 	}
 
-	public void setTechStack(List<String> techStack) {
+	public void setTechStack(String techStack) {
 		this.techStack = techStack;
 	}
 

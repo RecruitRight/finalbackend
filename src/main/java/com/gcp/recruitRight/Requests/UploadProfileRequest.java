@@ -7,10 +7,6 @@ public class UploadProfileRequest {
 	private List<String> userProfiles;
 	private String sessionId;
 	
-	public UploadProfileRequest() {
-		
-	}
-	
 	public String getSessionId() {
 		return sessionId;
 	}

@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.gcp.recruitRight.models.UserProfiles;
+import com.gcp.recruitRight.models.UserProfile;
 
 @Repository
 public class UploadProfileRepository {
@@ -18,9 +18,9 @@ public class UploadProfileRepository {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	public List<UserProfiles> findUserProfiles(String userId){
+	public List<UserProfile> findUserProfiles(String userId){
 		String sql = "SELECT * FROM USERPROFILES where userId = ?";
-		List<UserProfiles> userProfiles = jdbcTemplate.query(sql,new BeanPropertyRowMapper(UserProfiles.class),userId);
+		List<UserProfile> userProfiles = jdbcTemplate.query(sql,new BeanPropertyRowMapper(UserProfile.class),userId);
 		return userProfiles;
 	}
 	
@@ -41,7 +41,7 @@ public class UploadProfileRepository {
 		try {
 			File inp_file = new File(pdf);
 			FileInputStream input = new FileInputStream(inp_file);
-			String sql = "INSERT into USERPROFILES values(?,?,?,?)";
+			String sql = "INSERT into USERPROFILES(userId,name,contact,resume) values(?,?,?,?)";
 			status = jdbcTemplate.update(sql,userId,name,contact,input);
 		}
 		catch(Exception e){

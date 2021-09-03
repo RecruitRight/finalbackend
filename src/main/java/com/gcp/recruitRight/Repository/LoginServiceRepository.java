@@ -2,12 +2,15 @@ package com.gcp.recruitRight.Repository;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gcp.recruitRight.Requests.LoginServiceRequest;
+import com.gcp.recruitRight.models.Session;
 import com.gcp.recruitRight.models.User;
 
 @Repository
@@ -16,10 +19,21 @@ public class LoginServiceRepository {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	Logger log = LoggerFactory.getLogger(LoginServiceRepository.class);
+	
 	public List<User> findUsers(LoginServiceRequest loginServiceRequest){
 		String sql = "SELECT * from USER";
 		List<User> users = jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class));
 		return users;
+	}
+	
+	public User fetchUserById(LoginServiceRequest loginServiceRequest) {
+		String sql = "SELECT * FROM USER where userId = ?";
+		List<User> users = jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class), loginServiceRequest.getUserId());
+		for(User u:users)
+			return u;
+		return null;
+		
 	}
 	
 	public int insertIntoUser(LoginServiceRequest loginServiceRequest) throws Exception{
@@ -33,13 +47,37 @@ public class LoginServiceRepository {
 	
 	public boolean verifyUser(LoginServiceRequest loginServiceRequest) throws Exception
 	{
+		log.info("Entering LoginServiceRepository.verifyUser()");
 		List<User> users = jdbcTemplate.query("SELECT * FROM USER where userId=?", new BeanPropertyRowMapper(User.class), loginServiceRequest.getUserId());
+		
 		if(users.size()==0)
 			throw new Exception("Email not registered...Please SignUp to continue");
 		for(User u:users)
+		{	if(!u.getUserType().equals(loginServiceRequest.getUserType()))
+				throw new Exception("Invalid UserType for that Email");
 			if(u.getPassword().equals(loginServiceRequest.getPassword()))
+			{
+				log.info("Exiting LoginServiceRepository.verifyUser()");
 				return true;
+			}
+		}
 		throw new Exception("Please enter correct password!");
+	}
+	
+	public String fetchSessionId(String userId)
+	{
+		log.info("Entering LoginServiceRepository.fetchSessionId()");
+		String sql1 = "SELECT * FROM SESSION where userId=?";
+		List<Session> sessions = jdbcTemplate.query(sql1, new BeanPropertyRowMapper(Session.class),userId);
+		if(sessions.size()>0)
+		{
+			String sql2 = "SELECT sessionId from SESSION where userId=?";
+			String sessionId = jdbcTemplate.queryForObject(sql2, String.class,userId);
+			log.info("Exitng LoginServiceRepository.fetchSessionId()");
+			return sessionId;
+		}
+		return null;
+		
 	}
 
 }

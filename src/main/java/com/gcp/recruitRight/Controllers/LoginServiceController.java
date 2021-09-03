@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gcp.recruitRight.Impls.LoginServiceImpl;
-import com.gcp.recruitRight.Impls.SessionManagement;
 import com.gcp.recruitRight.Requests.LoginServiceRequest;
 import com.gcp.recruitRight.response.BaseResponse;
 
@@ -20,9 +19,7 @@ public class LoginServiceController {
 	
 	@Autowired
 	private LoginServiceImpl loginServiceImpl; 
-	
-	@Autowired
-	private SessionManagement sessionManagement;
+
 	
 	@PostMapping("/signup")
 	public ResponseEntity<BaseResponse> signup(@RequestBody LoginServiceRequest loginServiceRequest) {
@@ -44,6 +41,7 @@ public class LoginServiceController {
 			if(sessionId!=null) {
 				baseResponse.setBooleanMsg(true);
 				baseResponse.setSessionId(sessionId);
+				baseResponse.setUser(loginServiceImpl.fetchUserById(loginServiceRequest));
 			}
 			else
 				baseResponse.setBooleanMsg(false); 
