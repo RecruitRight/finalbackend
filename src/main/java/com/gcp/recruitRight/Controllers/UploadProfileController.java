@@ -1,5 +1,7 @@
 package com.gcp.recruitRight.Controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,9 +20,11 @@ public class UploadProfileController {
 	@Autowired
 	UploadProfileImpl uploadProfileImpl;
 	
+	Logger log = LoggerFactory.getLogger(UploadProfileController.class);
+	
 	@PostMapping("/uploadProfile")
 	public ResponseEntity<BaseResponse> uploadProfile(@RequestBody UploadProfileRequest uploadProfileRequest){
-		
+		log.info("Entering UploadProfileControlelr.uploadProfile()");
 		BaseResponse baseResponse = new BaseResponse();
 		
 		try {
@@ -29,7 +33,7 @@ public class UploadProfileController {
 			baseResponse.setExceptionMessage(e.getMessage());
 			baseResponse.setBooleanMsg(false);
 		}
-		
+		log.info("Exiting UploadProfileControlelr.uploadProfile()");
 		return ResponseEntity.ok(baseResponse);
 	}
 }

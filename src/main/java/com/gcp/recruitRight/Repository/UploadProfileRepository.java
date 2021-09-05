@@ -35,14 +35,14 @@ public class UploadProfileRepository {
 			throw new Exception("File Not Found");
 		}
 	}
-	public int insertIntoUserProfiles(String userId, String name, String contact, String pdf) throws Exception
+	public int insertIntoUserProfiles(String userId, String name, String contact, String pdf, String uploader) throws Exception
 	{
 		int status = 0;
 		try {
 			File inp_file = new File(pdf);
 			FileInputStream input = new FileInputStream(inp_file);
-			String sql = "INSERT into USERPROFILES(userId,name,contact,resume) values(?,?,?,?)";
-			status = jdbcTemplate.update(sql,userId,name,contact,input);
+			String sql = "INSERT into USERPROFILES(userId,name,contact,resume,uploader) values(?,?,?,?,?)";
+			status = jdbcTemplate.update(sql,userId,name,contact,input,uploader);
 		}
 		catch(Exception e){
 			throw new Exception("File Not Found");

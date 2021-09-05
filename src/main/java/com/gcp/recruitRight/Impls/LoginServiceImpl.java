@@ -70,7 +70,11 @@ public class LoginServiceImpl {
 	}
 	
 	public User fetchUserById(LoginServiceRequest loginServiceRequest) {
-		return loginServiceRepository.fetchUserById(loginServiceRequest);
+		log.info("Entering LoginServiceImpl.fetchUserById()");
+		User user = loginServiceRepository.fetchUserById(loginServiceRequest);
+		log.info("Exiting LoginServiceImpl.fetchUserById()");
+		return user;
+		
 	}
 	
 	public boolean logout(LoginServiceRequest loginServiceRequest) throws Exception
@@ -99,7 +103,10 @@ public class LoginServiceImpl {
 			return true;
 		}
 		else
+		{
+			log.error("Invalid Session");
 			throw new Exception("Invalid session...");
+		}
 			
 	}
 }

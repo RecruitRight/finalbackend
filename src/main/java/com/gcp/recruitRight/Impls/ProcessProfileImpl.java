@@ -37,7 +37,7 @@ public class ProcessProfileImpl {
 	
 	Logger log = LoggerFactory.getLogger(ProcessProfileImpl.class);
 	
-	@Scheduled(cron = "0 20 23 * * ?") 				// Scheduled at 10:00AM every day(minute hour day-of-month month day-of-week)
+	@Scheduled(cron = "0 57 01 * * ?") 				// Scheduled at 10:00AM every day(second minute hour day-of-month month day-of-week)
 	public void processProfiles() throws IOException {
 		
 		List<Requirement> requirements = processProfileRepository.fetchActiveRequirements();
@@ -224,6 +224,8 @@ public class ProcessProfileImpl {
 					  tableData.append("<tr> <td> "+usp.getName()+"</td> <td>"+usp.getUserId()+"</td> <td>"+usp.getContact()+"</td> <td>"+Double.toString(score)+"</td> </tr>\r\n");
 					  
 					  addAttachment(multipart, name, resume);
+					  
+					  processProfileRepository.insertIntoFeedback(reqId,usp.getUserId(),usp.getName(),usp.getContact(),score,"InProgress");
 				  }
 				
 				tableData.append("</table> </br></br></br><p>Thanks & Regards,</p><p>TCS Recruit Right Team</p></body> </html>");
@@ -264,19 +266,19 @@ public class ProcessProfileImpl {
 			  	
 			  String User="recruitright.team@gmail.com";
 	          String Pass="recruitright";
-	          String Subject="Recruit Right:Filtered Profiles for your Requirement";
 	          String Message = "Hello,\nFind attached profiles with maximum similarity for requirement posted in Recruit Right.\n\n";     
 			  
 			  for(Requirement req:requirements)
 			  {
 				  int reqId = req.getReqId();
 				  String toEmail = req.getUserId();
+				  String Subject="Filtered Profiles: "+req.getProjectName()+"(ReqId: "+Integer.toString(reqId)+')';
 				  List<UserProfile> profiles = processProfileRepository.fetchTopProfiles(reqId);
 				  if(profiles.size()>0)
 				  {
-					  System.out.println("Sending Mail...");
+					  log.info("Sending Mail...");
 					  send(reqId, toEmail, Subject, Message, User, Pass, profiles);
-			          System.out.println("Mail Sent Successfully...");
+			          log.info("Mail Sent Successfully...");
 			          processProfileRepository.updateRequirementStatus(reqId);
 				  }
 			  }
@@ -288,4 +290,5 @@ public class ProcessProfileImpl {
 	        	e.printStackTrace();
 	        }
 	  }
+
 }

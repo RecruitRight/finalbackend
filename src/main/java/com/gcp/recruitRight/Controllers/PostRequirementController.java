@@ -1,5 +1,7 @@
 package com.gcp.recruitRight.Controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +21,11 @@ public class PostRequirementController {
 	@Autowired
 	PostRequirementImpl postRequirementImpl;
 	
+	Logger log = LoggerFactory.getLogger(PostRequirementController.class);
+	
 	@PostMapping("/postRequirement")
 	public ResponseEntity<BaseResponse> postRequirement(@RequestBody PostRequirementRequest postRequirementRequest){	
+		log.info("Entering PoastRequirementController.postRequirement()");
 		BaseResponse baseResponse = new BaseResponse();
 		try {
 			baseResponse.setBooleanMsg(postRequirementImpl.postRequirement(postRequirementRequest));
@@ -28,6 +33,7 @@ public class PostRequirementController {
 			baseResponse.setExceptionMessage(e.getMessage());
 			baseResponse.setBooleanMsg(false);
 		}
+		log.info("Exiting PoastRequirementController.postRequirement()");
 		return ResponseEntity.status(HttpStatus.CREATED).body(baseResponse);
 	}
 

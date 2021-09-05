@@ -2,6 +2,7 @@ package com.gcp.recruitRight.response;
 
 import java.util.List;
 
+import com.gcp.recruitRight.models.Feedback;
 import com.gcp.recruitRight.models.Requirement;
 import com.gcp.recruitRight.models.User;
 
@@ -14,6 +15,9 @@ public class BaseResponse {
 	private Requirement requirement;
 	private List<User> users;
 	private List<Requirement> requirements;
+	private List<UserProfileStatus> userProfileStatusList;
+	private List<Feedback> feedbackList;
+	private List<UserProfileResponse> userProfileResponse;
 	
 
 	public String getSessionId() {
@@ -58,4 +62,25 @@ public class BaseResponse {
 	public void setRequirements(List<Requirement> requirements) {
 		this.requirements = requirements;
 	}
+	public List<UserProfileStatus> getUserProfileStatusList() {
+		return userProfileStatusList;
+	}
+	public void setUserProfileStatusList(List<UserProfileStatus> userProfileStatusList) {
+		this.userProfileStatusList = userProfileStatusList;
+	}
+	public List<Feedback> getFeedbackList() {
+		return feedbackList;
+	}
+	public void setFeedbackList(List<Feedback> feedbackList) {
+		this.feedbackList = feedbackList;
+	}
+	public List<UserProfileResponse> getUserProfileResponse() {
+		return userProfileResponse;
+	}
+	public void setUserProfileResponse(List<UserProfileResponse> userProfileResponse) {
+		this.userProfileResponse = userProfileResponse;
+	}
+	
+	
+	
 }

@@ -1,15 +1,13 @@
-package com.gcp.recruitRight.models;
+package com.gcp.recruitRight.response;
 
-import java.io.ByteArrayInputStream;
-
-public class UserProfile {
+public class UserProfileResponse {
 	
 	private String userId;
 	private String name;
 	private String contact;
-	private ByteArrayInputStream resume;
-	private String uploader;
 	private String status;
+	private int reqId;
+	private String projectName;
 	
 	public String getUserId() {
 		return userId;
@@ -29,25 +27,24 @@ public class UserProfile {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
-	public ByteArrayInputStream getResume() {
-		return resume;
-	}
-	public void setResume(ByteArrayInputStream resume) {
-		this.resume = resume;
-	}
-	public String getUploader() {
-		return uploader;
-	}
-	public void setUploader(String uploader) {
-		this.uploader = uploader;
-	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+	public int getReqId() {
+		return reqId;
+	}
+	public void setReqId(int reqId) {
+		this.reqId = reqId;
+	}
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 	
 	
 	

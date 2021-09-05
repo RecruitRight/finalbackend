@@ -29,7 +29,8 @@ public class UploadProfileImpl {
 		log.info("Entering UploadProfileImpl.uploadProfiles()");
 		
 		try {
-		if(loginServiceImpl.validate(SessionManagement.getUserId(uploadProfileRequest.getSessionId()),uploadProfileRequest.getSessionId()))
+		String uploader = SessionManagement.getUserId(uploadProfileRequest.getSessionId());
+		if(loginServiceImpl.validate(uploader,uploadProfileRequest.getSessionId()))
 		{
 			String userId;
 			String contact;
@@ -74,17 +75,19 @@ public class UploadProfileImpl {
 					status += uploadProfileRepository.updateUserProfiles(userId,userProfile);
 				}
 				else
-					status += uploadProfileRepository.insertIntoUserProfiles(userId,name,contact,userProfile);
+					status += uploadProfileRepository.insertIntoUserProfiles(userId,name,contact,userProfile,uploader);
 			}
 			if(status == userProfiles.size()) {
-				log.info("Exiting UploadProfileImpl.uploadProfile()");
+				log.info("Exiting UploadProfileImpl.uploadProfile()--->true");
 				return true;
 			}
+			log.info("Exiting UploadProfileImpl.uploadProfile()--->false");
 			return false;	
 		}
 	} catch(Exception e) {
 		throw new Exception("Invalid session");
 	}
+	log.info("Exiting UploadProfileImpl.uploadProfile()--->false");
 	return false;
 }
 }

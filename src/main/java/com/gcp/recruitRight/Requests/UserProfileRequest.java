@@ -8,6 +8,7 @@ public class UserProfileRequest {
 	private String lastName;
 	private String contact;
 	private String password;
+	private String verificationCode;
 
 	public String getSessionId() {
 		return sessionId;
@@ -55,6 +56,14 @@ public class UserProfileRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 	
 	

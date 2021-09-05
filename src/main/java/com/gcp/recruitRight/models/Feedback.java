@@ -1,16 +1,21 @@
 package com.gcp.recruitRight.models;
 
-import java.io.ByteArrayInputStream;
+public class Feedback {
 
-public class UserProfile {
-	
+	private int reqId;
 	private String userId;
 	private String name;
 	private String contact;
-	private ByteArrayInputStream resume;
-	private String uploader;
+	private double profileScore;
 	private String status;
-	
+	private String remarks;
+
+	public int getReqId() {
+		return reqId;
+	}
+	public void setReqId(int reqId) {
+		this.reqId = reqId;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -29,17 +34,11 @@ public class UserProfile {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
-	public ByteArrayInputStream getResume() {
-		return resume;
+	public double getProfileScore() {
+		return profileScore;
 	}
-	public void setResume(ByteArrayInputStream resume) {
-		this.resume = resume;
-	}
-	public String getUploader() {
-		return uploader;
-	}
-	public void setUploader(String uploader) {
-		this.uploader = uploader;
+	public void setProfileScore(double profileScore) {
+		this.profileScore = profileScore;
 	}
 	public String getStatus() {
 		return status;
@@ -47,8 +46,11 @@ public class UserProfile {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
-	
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 	
 }

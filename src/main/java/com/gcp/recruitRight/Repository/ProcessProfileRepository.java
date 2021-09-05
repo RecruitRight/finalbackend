@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gcp.recruitRight.models.Feedback;
 import com.gcp.recruitRight.models.Requirement;
 import com.gcp.recruitRight.models.UserProfile;
 
@@ -58,6 +59,17 @@ public class ProcessProfileRepository {
 		String sql = "Update requirements set status = \"InProgress\" where reqId = ?";
 		return jdbcTemplate.update(sql,reqId);
 		
+	}
+	
+	public void insertIntoFeedback(int reqId,String userId, String name, String contact, double profileScore, String status)
+	{
+		String sql1 = "SELECT * FROM FEEDBACK where reqId=? and userId=?";
+		List<Feedback> feedbackList = jdbcTemplate.query(sql1,new BeanPropertyRowMapper(Feedback.class),reqId,userId);
+		if(feedbackList.size()==0)
+		{
+			String sql2 = "INSERT INTO FEEDBACK(reqId,userId,name,contact,profileScore,status) values(?,?,?,?,?,?)";
+			jdbcTemplate.update(sql2,reqId,userId,name,contact,profileScore,status);
+		}
 	}
 	
 	public double fetchProfileScores(int reqId, String userId) {
