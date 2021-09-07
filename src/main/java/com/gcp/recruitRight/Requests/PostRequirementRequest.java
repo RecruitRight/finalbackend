@@ -3,7 +3,6 @@ package com.gcp.recruitRight.Requests;
 
 public class PostRequirementRequest {
 	
-	private String sessionId;
 	private String isu;
 	private String subIsu;
 	private String projectName;
@@ -12,13 +11,6 @@ public class PostRequirementRequest {
 	private String techStack;
 	private double experience;
 	
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
 
 	public String getIsu() {
 		return isu;

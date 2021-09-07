@@ -51,4 +51,5 @@ public class FeedbackRepository {
 		String sql = "UPDATE PROFILESCORES SET status=? where reqId!=? and userId=?";
 		return jdbcTemplate.update(sql, status,reqId,userId);
 	}
+	
 }

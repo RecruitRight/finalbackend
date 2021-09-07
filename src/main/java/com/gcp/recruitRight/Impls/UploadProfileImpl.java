@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gcp.recruitRight.Repository.UploadProfileRepository;
 import com.gcp.recruitRight.Requests.UploadProfileRequest;
+import com.gcp.recruitRight.Util.UsernameStorage;
 import com.gcp.recruitRight.models.UserProfile;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
@@ -29,9 +30,7 @@ public class UploadProfileImpl {
 		log.info("Entering UploadProfileImpl.uploadProfiles()");
 		
 		try {
-		String uploader = SessionManagement.getUserId(uploadProfileRequest.getSessionId());
-		if(loginServiceImpl.validate(uploader,uploadProfileRequest.getSessionId()))
-		{
+			String uploader = UsernameStorage.getUserId();
 			String userId;
 			String contact;
 			String name;
@@ -72,7 +71,7 @@ public class UploadProfileImpl {
 				List<UserProfile> profiles = uploadProfileRepository.findUserProfiles(userId);
 				
 				if(profiles.size()!=0) {
-					status += uploadProfileRepository.updateUserProfiles(userId,userProfile);
+					status += uploadProfileRepository.updateUserProfiles(userId,userProfile,uploader);
 				}
 				else
 					status += uploadProfileRepository.insertIntoUserProfiles(userId,name,contact,userProfile,uploader);
@@ -83,11 +82,9 @@ public class UploadProfileImpl {
 			}
 			log.info("Exiting UploadProfileImpl.uploadProfile()--->false");
 			return false;	
-		}
-	} catch(Exception e) {
-		throw new Exception("Invalid session");
+	} 
+		catch(Exception e) {
+		throw new Exception("Error while uploading profile");
 	}
-	log.info("Exiting UploadProfileImpl.uploadProfile()--->false");
-	return false;
 }
 }

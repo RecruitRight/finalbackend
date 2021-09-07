@@ -2,20 +2,30 @@ package com.gcp.recruitRight.Requests;
 
 public class UserProfileRequest {
 	
-	private String sessionId;
+	private int reqId;
+	private String userId;
 	private String userType;
 	private String firstName;
 	private String lastName;
 	private String contact;
 	private String password;
 	private String verificationCode;
-
-	public String getSessionId() {
-		return sessionId;
+	
+	
+	public int getReqId() {
+		return reqId;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public void setReqId(int reqId) {
+		this.reqId = reqId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getUserType() {

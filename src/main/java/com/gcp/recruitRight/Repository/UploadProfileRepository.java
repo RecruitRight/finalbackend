@@ -24,12 +24,12 @@ public class UploadProfileRepository {
 		return userProfiles;
 	}
 	
-	public int updateUserProfiles(String userId,String pdf) throws Exception {
+	public int updateUserProfiles(String userId,String pdf,String uploader) throws Exception {
 		try {
 			File inp_file = new File(pdf);
 			FileInputStream input = new FileInputStream(inp_file);
-			String sql = "UPDATE USERPROFILES SET resume=? where userId=?";
-			return jdbcTemplate.update(sql,input,userId);	
+			String sql = "UPDATE USERPROFILES SET resume=?,uploader=? where userId=?";
+			return jdbcTemplate.update(sql,input,uploader,userId);	
 		} 
 		catch (FileNotFoundException e) {
 			throw new Exception("File Not Found");

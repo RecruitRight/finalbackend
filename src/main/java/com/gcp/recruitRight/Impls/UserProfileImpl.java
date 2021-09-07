@@ -20,8 +20,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gcp.recruitRight.Repository.LoginServiceRepository;
 import com.gcp.recruitRight.Repository.UserProfileRepository;
 import com.gcp.recruitRight.Requests.UserProfileRequest;
+import com.gcp.recruitRight.Util.UsernameStorage;
 import com.gcp.recruitRight.models.Feedback;
 import com.gcp.recruitRight.models.ProfileScore;
 import com.gcp.recruitRight.models.Requirement;
@@ -37,35 +39,31 @@ public class UserProfileImpl {
 	UserProfileRepository userProfileRepository;
 	
 	@Autowired
+	LoginServiceRepository loginServiceRepository;
+	
+	@Autowired
 	LoginServiceImpl loginServiceImpl;
 	
 	Logger log = LoggerFactory.getLogger(UserProfileImpl.class);
 	
-	public User fetchUserDetails(UserProfileRequest userProfileRequest) throws Exception
+	public User fetchUserDetails() throws Exception
 	{
 		log.info("Entering UserProfileImpl.fetchUserDetails()");
 		try {
-		if(loginServiceImpl.validate(SessionManagement.getUserId(userProfileRequest.getSessionId()),userProfileRequest.getSessionId()))
-		{	
-			User u= userProfileRepository.fetchUser(SessionManagement.getUserId(userProfileRequest.getSessionId()));
+			User u= userProfileRepository.fetchUser(UsernameStorage.getUserId());
 			log.info("Exiting UserProfileImpl.fetchUserDetails()");
 			return u;
-		} 
 		}catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.fetchUserDetails()");
-		return null;
 	}
 	
 	public boolean editUserDetails(UserProfileRequest userProfileRequest) throws Exception
 	{
 		log.info("Entering UserProfileImpl.editUserDetails()");
 		try {
-		if(loginServiceImpl.validate(SessionManagement.getUserId(userProfileRequest.getSessionId()),userProfileRequest.getSessionId()))
-		{
 			int status = userProfileRepository.updateUser(
-												SessionManagement.getUserId(userProfileRequest.getSessionId()),
+												UsernameStorage.getUserId(),
 												userProfileRequest.getFirstName(),
 												userProfileRequest.getLastName(),
 												userProfileRequest.getContact()
@@ -74,79 +72,61 @@ public class UserProfileImpl {
 			if(status > 0)
 				return true;
 			return false;
-		}
 		} catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.editUserDetails()");
-		return false;
 	}
 	
-	public List<User> fetchAllUsers(UserProfileRequest userProfileRequest) throws Exception
+	public List<User> fetchAllUsers() throws Exception
 	{	
 		log.info("Entering UserProfileImpl.fetchAllUsers()");
 		try
 		{
-			if(loginServiceImpl.validate(SessionManagement.getUserId(userProfileRequest.getSessionId()),userProfileRequest.getSessionId()))
-			{
-				List<User> users = userProfileRepository.fetchAllUsers();
-				log.info("Exiting UserProfileImpl.ftechAllUsers()");
-				return users;
-			}
+			List<User> users = userProfileRepository.fetchAllUsers();
+			log.info("Exiting UserProfileImpl.ftechAllUsers()");
+			return users;
 		} catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.fetchAllUsers()");
-		return null;
 	}
 	
-	public List<Requirement> fetchRequirementById(UserProfileRequest userProfileRequest) throws Exception
+	public List<Requirement> fetchRequirementById() throws Exception
 	{
 		log.info("Entering UserProfileImpl.fetchRequirementById()");
 		try
 		{
-			String userId = SessionManagement.getUserId(userProfileRequest.getSessionId());
-			if(loginServiceImpl.validate(userId,userProfileRequest.getSessionId()))
-			{
-				List<Requirement> requirements = userProfileRepository.fetchRequirementById(userId);
+			String userId = UsernameStorage.getUserId();
+			List<Requirement> requirements = userProfileRepository.fetchRequirementById(userId);
 				log.info("Exiting UserProfileImpl.fetchRequirementById()");
 				return requirements;
-			}
-		} catch(Exception e) {
+		} 
+		catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.fetchRequirementById()");
-		return null;
 	}
 		
 		
-	public List<Requirement> fetchAllRequirements(UserProfileRequest userProfileRequest) throws Exception
+	public List<Requirement> fetchAllRequirements() throws Exception
 	{
 		log.info("Entering UserProfileImpl.fetchAllrequirements()");
 		try
 		{
-			if(loginServiceImpl.validate(SessionManagement.getUserId(userProfileRequest.getSessionId()),userProfileRequest.getSessionId()))
-			{
-				List<Requirement> requirements = userProfileRepository.fetchAllRequirements();
+			List<Requirement> requirements = userProfileRepository.fetchAllRequirements();
 				log.info("Exiting UserProfileImpl.fetchAllRequirements()");
 				return requirements;
-			}
-		} catch(Exception e) {
+		} 
+		catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.fetchAllRequirements()");
-		return null;
 	}
 	
-	public List<UserProfileStatus> fetchUserProfileScores(UserProfileRequest userProfileRequest) throws Exception
+	public List<UserProfileStatus> fetchUserProfileScores() throws Exception
 	{
 		log.info("Entering UserProfileImpl.fetchUserProfileScores()");
 		ArrayList<UserProfileStatus> userProfileStatusList = new ArrayList<UserProfileStatus>();
 		try
 		{
-			String userId = SessionManagement.getUserId(userProfileRequest.getSessionId());
-			if(loginServiceImpl.validate(userId,userProfileRequest.getSessionId()))
-			{
+			String userId = UsernameStorage.getUserId();
 				List<ProfileScore> profileScores = userProfileRepository.fetchProfileScoresById(userId);
 				for(ProfileScore profileScore : profileScores)
 				{
@@ -166,44 +146,35 @@ public class UserProfileImpl {
 				}
 				log.info("Exiting UserProfileImpl.fetchUserProfileScores()");
 				return userProfileStatusList;
-			}
 		} catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.getchUserProfileScores()");
-		return null;
 	}
 	
 	
-	public List<Feedback> fetchInProgressProfilesForPOC(UserProfileRequest userProfileRequest) throws Exception
+	public List<Feedback> fetchInProgressProfilesForPOC() throws Exception
 	{
 		log.info("Entering UserProfileImpl.fetchInProgressProfilesForPOC()");
-		String userId = SessionManagement.getUserId(userProfileRequest.getSessionId());
+		String userId = UsernameStorage.getUserId();
 		try {
-		if(loginServiceImpl.validate(userId, userProfileRequest.getSessionId()))
-		{
 			List<Feedback> feedbackList = userProfileRepository.fetchInProgressProfilesForPOC(userId);
 			log.info("Exiting UserProfileImpl.fetchInProgressProfilesForPOC()");
 			return feedbackList;
-		}
-		} catch(Exception e) {
+		} 
+		catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.fetchInProgressProfilesForPOC()");
-		return null;
 	}
 	
 	
-	public List<UserProfileResponse> fetchUserProfilesForRMG(UserProfileRequest userProfileRequest) throws Exception
+	public List<UserProfileResponse> fetchUserProfilesForRMG() throws Exception
 	{
 		log.info("Entering UserProfileImpl.fetchUserProfilesForRMG()");
 		
 		ArrayList<UserProfileResponse> userProfileResponse = new ArrayList<UserProfileResponse>();
 		
-		String uploader = SessionManagement.getUserId(userProfileRequest.getSessionId());
+		String uploader = UsernameStorage.getUserId();
 		try {
-		if(loginServiceImpl.validate(uploader, userProfileRequest.getSessionId()))
-		{
 			List<UserProfile> userProfiles =  userProfileRepository.fetchUserProfilesForRMG(uploader);
 			
 			for(UserProfile userProfile:userProfiles)
@@ -228,15 +199,13 @@ public class UserProfileImpl {
 			}
 			log.info("Exiting UserProfileImpl.fetchUserProfilesForRMG()");
 			return userProfileResponse;
-		}
-		} catch(Exception e) {
+		} 
+		catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.fetchUserProfilesForRMG()");
-		return null;
 	}
 	
-	public void sendEmail(String toMailId, String OTP)
+	public void sendEmail(String name, String toMailId, String OTP)
 	{
 		log.info("Entering UserProfileImpl.sendEmail()");
 		try {
@@ -244,7 +213,7 @@ public class UserProfileImpl {
         	String User="recruitright.team@gmail.com";
             String Pass="recruitright";
             String Subject="Verification Code to Reset Password";
-            String mssg = "Hello,\nVerification Code to Reset your Password is: "+OTP;     
+            String mssg = "Hello "+name+",\n\nVerification Code to Reset your Password is: "+OTP+"\n\nThanks,\nRecruitRight-Team";     
             
             Properties props = new Properties();
     		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -283,15 +252,18 @@ public class UserProfileImpl {
 	public boolean sendVerificationCode(UserProfileRequest userProfileRequest) throws Exception
 	{
 		log.info("Entering UserProfileImpl.sendVerificationCode()");
-		String userId = SessionManagement.getUserId(userProfileRequest.getSessionId());
+		String userId = userProfileRequest.getUserId();
+		User user = userProfileRepository.fetchUser(userId);
 		try 
 		{	
-			if(loginServiceImpl.validate(userId, userProfileRequest.getSessionId()))
+			if(user == null)
+				throw new Exception("Enter valid email");
+			else
 			{
 				Random random = new Random();
-				String OTP = String.format("%04d", random.nextInt(10000));
+				String OTP = String.format("%06d", random.nextInt(1000000));
 				PasswordManagement.addOtp(userId, OTP);
-				sendEmail(userId, OTP);
+				sendEmail(user.getFirstName(),userId, OTP);
 				log.info("Exiting UserProfileImpl.sendVerificationCode()");
 			}
 			
@@ -306,11 +278,14 @@ public class UserProfileImpl {
 	public boolean changePassword(UserProfileRequest userProfileRequest) throws Exception
 	{
 		log.info("Entering UserProfileImpl.changePassword()");
-		String userId = SessionManagement.getUserId(userProfileRequest.getSessionId());
+		String userId = userProfileRequest.getUserId();
+		User user = userProfileRepository.fetchUser(userId);
 		int flag=0;
 		try 
 		{	
-			if(loginServiceImpl.validate(userId, userProfileRequest.getSessionId()))
+			if(user == null)
+				throw new Exception("Enter valid email");
+			else
 			{
 				if(userProfileRequest.getVerificationCode().equals(PasswordManagement.getOtp(userId)))
 					flag = userProfileRepository.updateUserPassword(userId,userProfileRequest.getPassword());
@@ -319,7 +294,7 @@ public class UserProfileImpl {
 			}
 			if(flag>0)
 			{
-				log.info("Exiting UserProfileImpl.changePassword()");
+				log.info("Exiting UserProfileImpl.changePassword()---true");
 				return true;
 			}
 			
@@ -328,8 +303,160 @@ public class UserProfileImpl {
 		{
 			throw new Exception(e.getMessage());
 		}
-		log.info("Exiting UserProfileImpl.changePassword()");
+		log.info("Exiting UserProfileImpl.changePassword()---false");
 		return false;
 	}	
+	
+	
+	public boolean closeRequirement(UserProfileRequest userProfileRequest) throws Exception
+	{
+		try {
+		int result = userProfileRepository.updateRequirementStatus(userProfileRequest.getReqId(),"Closed");
+		if(result>0)
+			return true;
+		return false;
+		}
+		catch(Exception e) {
+			throw new Exception("Error while updating status");
+		}
+	}
+	
+	public List<Requirement> fetchAllActiveRequirements() throws Exception
+	{
+		try {
+		List<Requirement> activeRequirements = userProfileRepository.fetchAllActiveRequirements();
+		return activeRequirements;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<Requirement> fetchAllClosedRequirements() throws Exception
+	{
+		try {
+		List<Requirement> closedRequirements = userProfileRepository.fetchAllClosedRequirements();
+		return closedRequirements;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<Requirement> fetchAllInProgressRequirements() throws Exception
+	{
+		try {
+		List<Requirement> inProgressRequirements = userProfileRepository.fetchAllInProgressRequirements();
+		return inProgressRequirements;
+		}
+		catch(Exception e) {
+			throw new Exception("cannot fetch data");
+		}
+	}
+	
+	public List<Requirement> fetchAllActiveRequirementsById() throws Exception
+	{
+		try {
+			String userId = UsernameStorage.getUserId();
+			List<Requirement> activeRequirements = userProfileRepository.fetchAllActiveRequirementsById(userId);
+			return activeRequirements;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<Requirement> fetchAllClosedRequirementsById() throws Exception
+	{
+		try {
+			String userId = UsernameStorage.getUserId();
+			List<Requirement> closedRequirements = userProfileRepository.fetchAllClosedRequirementsById(userId);
+			return closedRequirements;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<Requirement> fetchAllInProgressRequirementsById() throws Exception
+	{
+		try {
+			String userId = UsernameStorage.getUserId();
+			List<Requirement> inProgressRequirements = userProfileRepository.fetchAllInProgressRequirementsById(userId);
+			return inProgressRequirements;
+		}
+		catch(Exception e) {
+			throw new Exception("cannot fetch data");
+		}
+	}
+	
+	public List<UserProfile> fetchAllActiveUserProfiles() throws Exception
+	{
+		try {
+		List<UserProfile> activeUserProfiles = userProfileRepository.fetchAllActiveUserProfiles();
+		return activeUserProfiles;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<UserProfile> fetchAllSelectedUserProfiles() throws Exception
+	{
+		try {
+		List<UserProfile> closedUserProfiles = userProfileRepository.fetchAllSelectedUserProfiles();
+		return closedUserProfiles;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<UserProfile> fetchAllInProgressUserProfiles() throws Exception
+	{
+		try {
+		List<UserProfile> inProgressUserProfiles = userProfileRepository.fetchAllInProgressUserProfiles();
+		return inProgressUserProfiles;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<UserProfile> fetchAllActiveUserProfilesById() throws Exception
+	{
+		try {
+			String uploader = UsernameStorage.getUserId();
+			List<UserProfile> activeUserProfiles = userProfileRepository.fetchAllActiveUserProfilesById(uploader);
+			return activeUserProfiles;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<UserProfile> fetchAllSelectedUserProfilesById() throws Exception
+	{
+		try {
+			String uploader = UsernameStorage.getUserId();
+			List<UserProfile> closedUserProfiles = userProfileRepository.fetchAllSelectedUserProfilesById(uploader);
+			return closedUserProfiles;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
+	
+	public List<UserProfile> fetchAllInProgressUserProfilesById() throws Exception
+	{
+		try {
+			String uploader = UsernameStorage.getUserId();
+			List<UserProfile> inProgressUserProfiles = userProfileRepository.fetchAllInProgressUserProfilesById(uploader);
+			return inProgressUserProfiles;
+		}
+		catch(Exception e) {
+			throw new Exception("Cannot fetch data");
+		}
+	}
 
 }

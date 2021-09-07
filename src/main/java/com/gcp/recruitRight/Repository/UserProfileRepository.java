@@ -103,4 +103,82 @@ public class UserProfileRepository {
 			return r;
 		return null;
 	}
+	
+	public int updateRequirementStatus(int reqId, String status)
+	{
+		String sql = "UPDATE REQUIREMENTS SET status=? where reqId=?";
+		return jdbcTemplate.update(sql,status,reqId);
+	}
+	
+	public List<Requirement> fetchAllActiveRequirements()
+	{
+		String sql = "SELECT * FROM REQUIREMENTS where status=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Requirement.class),"active");
+	}
+	
+	public List<Requirement> fetchAllClosedRequirements()
+	{
+		String sql = "SELECT * FROM REQUIREMENTS where status=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Requirement.class),"Closed");
+	}
+	
+	public List<Requirement> fetchAllInProgressRequirements()
+	{
+		String sql = "SELECT * FROM REQUIREMENTS where status=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Requirement.class),"InProgress");
+	}
+	
+	public List<Requirement> fetchAllActiveRequirementsById(String userId)
+	{
+		String sql = "SELECT * FROM REQUIREMENTS where status=? and userId=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Requirement.class),"active",userId);
+	}
+	
+	public List<Requirement> fetchAllClosedRequirementsById(String userId)
+	{
+		String sql = "SELECT * FROM REQUIREMENTS where status=? and userId=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Requirement.class),"Closed",userId);
+	}
+	
+	public List<Requirement> fetchAllInProgressRequirementsById(String userId)
+	{
+		String sql = "SELECT * FROM REQUIREMENTS where status=? and userId=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Requirement.class),"InProgress",userId);
+	}
+	
+	public List<UserProfile> fetchAllActiveUserProfiles()
+	{
+		String sql = "SELECT * FROM USERPROFILES where status=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(UserProfile.class),"active");
+	}
+	
+	public List<UserProfile> fetchAllSelectedUserProfiles()
+	{
+		String sql = "SELECT * FROM USERPROFILES where status=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(UserProfile.class),"Selected");
+	}
+	
+	public List<UserProfile> fetchAllInProgressUserProfiles()
+	{
+		String sql = "SELECT * FROM USERPROFILES where status=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(UserProfile.class),"InProgress");
+	}
+	
+	public List<UserProfile> fetchAllActiveUserProfilesById(String uploader)
+	{
+		String sql = "SELECT * FROM USERPROFILES where status=? and uploader=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(UserProfile.class),"active",uploader);
+	}
+	
+	public List<UserProfile> fetchAllSelectedUserProfilesById(String uploader)
+	{
+		String sql = "SELECT * FROM USERPROFILES where status=? and uploader=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(UserProfile.class),"Selected",uploader);
+	}
+	
+	public List<UserProfile> fetchAllInProgressUserProfilesById(String uploader)
+	{
+		String sql = "SELECT * FROM USERPROFILES where status=? and uploader=?";
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(UserProfile.class),"InProgress",uploader);
+	}
 }

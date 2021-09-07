@@ -38,7 +38,7 @@ public class ProcessProfileRepository {
 	
 	public int updateProfileScoreStatus(int reqId, int limit)
 	{
-		String sql = "UPDATE PROFILESCORES SET status = ? where reqId=? and profileScore>=60 order by profileScore desc limit ?";
+		String sql = "UPDATE PROFILESCORES SET status = ? where reqId=? and profileScore>=50 order by profileScore desc limit ?";
 		return jdbcTemplate.update(sql,"InProgress",reqId,limit);
 	}
 	

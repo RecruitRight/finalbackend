@@ -2,7 +2,6 @@ package com.gcp.recruitRight.models;
 
 public class Requirement {
 
-		
 		private int reqId;
 		private String userId;
 		private String isu;

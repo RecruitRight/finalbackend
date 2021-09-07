@@ -8,8 +8,6 @@ public class LoginServiceRequest {
 	private String lastName;
 	private String contact;
 	private String password;
-	private String sessionId;
-	
 
 	public String getUserId() {
 		return userId;
@@ -58,11 +56,5 @@ public class LoginServiceRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
+	
 }

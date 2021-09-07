@@ -10,6 +10,7 @@ public class Feedback {
 	private String status;
 	private String remarks;
 
+	
 	public int getReqId() {
 		return reqId;
 	}

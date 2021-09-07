@@ -2,17 +2,11 @@ package com.gcp.recruitRight.Requests;
 
 public class FeedbackRequest {
 	
-	private String sessionId;
 	private int reqId;
 	private String userId;
 	private String status;
 	private String remarks;
-	public String getSessionId() {
-		return sessionId;
-	}
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
+
 	public int getReqId() {
 		return reqId;
 	}

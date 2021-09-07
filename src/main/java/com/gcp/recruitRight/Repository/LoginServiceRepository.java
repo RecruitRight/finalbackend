@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gcp.recruitRight.Requests.LoginServiceRequest;
-import com.gcp.recruitRight.models.Session;
 import com.gcp.recruitRight.models.User;
 
 @Repository
@@ -21,15 +20,15 @@ public class LoginServiceRepository {
 	
 	Logger log = LoggerFactory.getLogger(LoginServiceRepository.class);
 	
-	public List<User> findUsers(LoginServiceRequest loginServiceRequest){
+	public List<User> findUsers(){
 		String sql = "SELECT * from USER";
 		List<User> users = jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class));
 		return users;
 	}
 	
-	public User fetchUserById(LoginServiceRequest loginServiceRequest) {
+	public User fetchUserById(String userId) {
 		String sql = "SELECT * FROM USER where userId = ?";
-		List<User> users = jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class), loginServiceRequest.getUserId());
+		List<User> users = jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class), userId);
 		for(User u:users)
 			return u;
 		return null;
@@ -64,20 +63,20 @@ public class LoginServiceRepository {
 		throw new Exception("Please enter correct password!");
 	}
 	
-	public String fetchSessionId(String userId)
-	{
-		log.info("Entering LoginServiceRepository.fetchSessionId()");
-		String sql1 = "SELECT * FROM SESSION where userId=?";
-		List<Session> sessions = jdbcTemplate.query(sql1, new BeanPropertyRowMapper(Session.class),userId);
-		if(sessions.size()>0)
-		{
-			String sql2 = "SELECT sessionId from SESSION where userId=?";
-			String sessionId = jdbcTemplate.queryForObject(sql2, String.class,userId);
-			log.info("Exitng LoginServiceRepository.fetchSessionId()");
-			return sessionId;
-		}
-		return null;
-		
-	}
+//	public String fetchSessionId(String userId)
+//	{
+//		log.info("Entering LoginServiceRepository.fetchSessionId()");
+//		String sql1 = "SELECT * FROM SESSION where userId=?";
+//		List<Session> sessions = jdbcTemplate.query(sql1, new BeanPropertyRowMapper(Session.class),userId);
+//		if(sessions.size()>0)
+//		{
+//			String sql2 = "SELECT sessionId from SESSION where userId=?";
+//			String sessionId = jdbcTemplate.queryForObject(sql2, String.class,userId);
+//			log.info("Exitng LoginServiceRepository.fetchSessionId()");
+//			return sessionId;
+//		}
+//		return null;
+//		
+//	}
 
 }

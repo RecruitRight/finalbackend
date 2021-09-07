@@ -45,7 +45,5 @@ public class UserProfileResponse {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	
-	
-	
+		
 }

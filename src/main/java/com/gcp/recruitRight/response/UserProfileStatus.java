@@ -9,6 +9,7 @@ public class UserProfileStatus {
 	private String jobRoleType;
 	private double profileScore;
 	private String status;
+	
 	public String getIsu() {
 		return isu;
 	}

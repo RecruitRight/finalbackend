@@ -23,8 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.gcp.recruitRight.Repository.LoginServiceRepository;
 import com.gcp.recruitRight.Repository.ProcessProfileRepository;
 import com.gcp.recruitRight.models.Requirement;
+import com.gcp.recruitRight.models.User;
 import com.gcp.recruitRight.models.UserProfile;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
@@ -35,9 +37,12 @@ public class ProcessProfileImpl {
 	@Autowired
 	ProcessProfileRepository processProfileRepository;
 	
+	@Autowired
+	LoginServiceRepository loginServiceRepository;
+	
 	Logger log = LoggerFactory.getLogger(ProcessProfileImpl.class);
 	
-	@Scheduled(cron = "0 57 01 * * ?") 				// Scheduled at 10:00AM every day(second minute hour day-of-month month day-of-week)
+	@Scheduled(cron = "0 27 00 * * ?") 				// Scheduled at 10:00AM every day(second minute hour day-of-month month day-of-week)
 	public void processProfiles() throws IOException {
 		
 		List<Requirement> requirements = processProfileRepository.fetchActiveRequirements();
@@ -266,12 +271,17 @@ public class ProcessProfileImpl {
 			  	
 			  String User="recruitright.team@gmail.com";
 	          String Pass="recruitright";
-	          String Message = "Hello,\nFind attached profiles with maximum similarity for requirement posted in Recruit Right.\n\n";     
+	          //String Message = "Hello,\nFind attached profiles with maximum similarity for requirement posted in Recruit Right.\n\n";     
 			  
 			  for(Requirement req:requirements)
 			  {
 				  int reqId = req.getReqId();
 				  String toEmail = req.getUserId();
+				  
+				  User user = loginServiceRepository.fetchUserById(toEmail);
+				  
+				  String Message = "Hello "+user.getFirstName()+",\nFind attached profiles with maximum similarity for requirement posted in Recruit Right.\n\n"; 
+				  
 				  String Subject="Filtered Profiles: "+req.getProjectName()+"(ReqId: "+Integer.toString(reqId)+')';
 				  List<UserProfile> profiles = processProfileRepository.fetchTopProfiles(reqId);
 				  if(profiles.size()>0)

@@ -13,6 +13,7 @@ import com.gcp.recruitRight.Impls.UploadProfileImpl;
 import com.gcp.recruitRight.Requests.UploadProfileRequest;
 import com.gcp.recruitRight.response.BaseResponse;
 
+
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
 public class UploadProfileController {

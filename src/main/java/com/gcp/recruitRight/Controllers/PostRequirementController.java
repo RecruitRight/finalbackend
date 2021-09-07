@@ -14,6 +14,7 @@ import com.gcp.recruitRight.Impls.PostRequirementImpl;
 import com.gcp.recruitRight.Requests.PostRequirementRequest;
 import com.gcp.recruitRight.response.BaseResponse;
 
+
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
 public class PostRequirementController {

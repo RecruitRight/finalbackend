@@ -5,3 +5,4 @@ create table requirements(reqId int primary key auto_increment, userId varchar(5
 alter table requirements auto_increment=101; 
 create table profilescores(reqId int, userId varchar(50), profileScore double, status varchar(20),foreign key(reqId) references requirements(reqId));
 create table feedback(reqId int,userId varchar(50), name varchar(50), contact varchar(20), profileScore double, status varchar(20), remarks varchar(1000), foreign key(reqId) references requirements(reqId));
+

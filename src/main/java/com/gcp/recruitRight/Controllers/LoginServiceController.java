@@ -39,15 +39,15 @@ public class LoginServiceController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(baseResponse);
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<BaseResponse> login(@RequestBody LoginServiceRequest loginServiceRequest) {
 		log.info("Entering LoginServiceController.login()");
 		BaseResponse baseResponse = new BaseResponse();
 		try {
-			String sessionId = loginServiceImpl.login(loginServiceRequest);
-			if(sessionId!=null) {
+			String jwtToken = loginServiceImpl.login(loginServiceRequest);
+			if(jwtToken!=null) {
 				baseResponse.setBooleanMsg(true);
-				baseResponse.setSessionId(sessionId);
+				baseResponse.setJwtToken(jwtToken);
 				baseResponse.setUser(loginServiceImpl.fetchUserById(loginServiceRequest));
 			}
 			else
@@ -61,19 +61,14 @@ public class LoginServiceController {
 		return ResponseEntity.ok(baseResponse);
 	}
 	
-	@GetMapping("/logout")
-	public ResponseEntity<BaseResponse> logout(@RequestBody LoginServiceRequest loginServiceRequest){
+	@GetMapping("/user/logout")
+	public ResponseEntity<BaseResponse> logout(){
 		log.info("Entering LoginServiceController.logout()");
 		BaseResponse baseResponse = new BaseResponse();
-		try {
-			if(loginServiceImpl.logout(loginServiceRequest))
-				baseResponse.setBooleanMsg(true);
-			else
-				baseResponse.setBooleanMsg(false);
-		} catch (Exception e) {
-			baseResponse.setExceptionMessage(e.getMessage());
+		if(loginServiceImpl.logout())
+			baseResponse.setBooleanMsg(true);
+		else
 			baseResponse.setBooleanMsg(false);
-		}
 		log.info("Exiting LoginServiceController.logout()");
 		return ResponseEntity.ok(baseResponse);
 	}

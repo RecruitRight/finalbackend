@@ -5,26 +5,29 @@ import java.util.List;
 import com.gcp.recruitRight.models.Feedback;
 import com.gcp.recruitRight.models.Requirement;
 import com.gcp.recruitRight.models.User;
+import com.gcp.recruitRight.models.UserProfile;
 
 public class BaseResponse {
 	
 	private User user;
 	private Boolean booleanMsg;
 	private String exceptionMessage;
-	private String sessionId;
+	private String jwtToken;
 	private Requirement requirement;
 	private List<User> users;
 	private List<Requirement> requirements;
+	private List<UserProfile> userProfiles;
 	private List<UserProfileStatus> userProfileStatusList;
 	private List<Feedback> feedbackList;
 	private List<UserProfileResponse> userProfileResponse;
 	
 
-	public String getSessionId() {
-		return sessionId;
+	
+	public String getJwtToken() {
+		return jwtToken;
 	}
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public void setJwtToken(String jwtToken) {
+		this.jwtToken = jwtToken;
 	}
 	public User getUser() {
 		return user;
@@ -61,6 +64,12 @@ public class BaseResponse {
 	}
 	public void setRequirements(List<Requirement> requirements) {
 		this.requirements = requirements;
+	}
+	public List<UserProfile> getUserProfiles() {
+		return userProfiles;
+	}
+	public void setUserProfiles(List<UserProfile> userProfiles) {
+		this.userProfiles = userProfiles;
 	}
 	public List<UserProfileStatus> getUserProfileStatusList() {
 		return userProfileStatusList;

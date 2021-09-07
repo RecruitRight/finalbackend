@@ -6,6 +6,7 @@ public class ProfileScore {
 	private String userId;
 	private double profileScore;
 	private String status;
+	
 	public int getReqId() {
 		return reqId;
 	}
