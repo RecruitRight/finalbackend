@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gcp.recruitRight.Impls.UploadProfileImpl;
-import com.gcp.recruitRight.Requests.UploadProfileRequest;
 import com.gcp.recruitRight.response.BaseResponse;
 
 
@@ -24,12 +24,12 @@ public class UploadProfileController {
 	Logger log = LoggerFactory.getLogger(UploadProfileController.class);
 	
 	@PostMapping("/uploadProfile")
-	public ResponseEntity<BaseResponse> uploadProfile(@RequestBody UploadProfileRequest uploadProfileRequest){
+	public ResponseEntity<BaseResponse> uploadProfile(@RequestParam("resumeList") MultipartFile[] resumeList){
 		log.info("Entering UploadProfileControlelr.uploadProfile()");
 		BaseResponse baseResponse = new BaseResponse();
 		
 		try {
-			baseResponse.setBooleanMsg(uploadProfileImpl.uploadProfile(uploadProfileRequest));
+			baseResponse.setBooleanMsg(uploadProfileImpl.uploadProfile(resumeList));
 		} catch (Exception e) {
 			baseResponse.setExceptionMessage(e.getMessage());
 			baseResponse.setBooleanMsg(false);
