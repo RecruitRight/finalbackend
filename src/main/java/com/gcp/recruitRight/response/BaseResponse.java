@@ -20,6 +20,7 @@ public class BaseResponse {
 	private List<UserProfileStatus> userProfileStatusList;
 	private List<Feedback> feedbackList;
 	private List<UserProfileResponse> userProfileResponse;
+	private List<String> incorrectProfiles;
 	
 
 	
@@ -88,6 +89,12 @@ public class BaseResponse {
 	}
 	public void setUserProfileResponse(List<UserProfileResponse> userProfileResponse) {
 		this.userProfileResponse = userProfileResponse;
+	}
+	public List<String> getIncorrectProfiles() {
+		return incorrectProfiles;
+	}
+	public void setIncorrectProfiles(List<String> incorrectProfiles) {
+		this.incorrectProfiles = incorrectProfiles;
 	}
 	
 	

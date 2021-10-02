@@ -1,5 +1,6 @@
 package com.gcp.recruitRight.Impls;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -25,9 +26,10 @@ public class UploadProfileImpl {
 	
 	Logger log = LoggerFactory.getLogger(UploadProfileImpl.class);
 	
-	public Boolean uploadProfile(MultipartFile[] resumeList) throws Exception{
+	public List<String> uploadProfile(MultipartFile[] resumeList) throws Exception{
 			
 			log.info("Entering UploadProfileImpl.uploadProfiles()");
+			List<String> incorrectProfiles = new ArrayList<String>();
 			
 			try {
 				String uploader = UsernameStorage.getUserId();
@@ -41,30 +43,44 @@ public class UploadProfileImpl {
 				{
 				    StringBuilder text = new StringBuilder();
 				    
-					//Create PdfReader instance.
-					PdfReader pdfReader = new PdfReader(resumeList[i].getBytes());	
-				 
-					//Get the number of pages in pdf.
-					int pages = pdfReader.getNumberOfPages(); 
-				
-					//Iterate the pdf through pages.
-					for(int page=1; page<=pages; page++) 
-					{ 
-					  //Extract the page content using PdfTextExtractor.
-					  String pageContent = PdfTextExtractor.getTextFromPage(pdfReader, page);
-					  text.append(pageContent);
-				    }
-					String resumeData = text.toString();
+					try {
+						
+						//Create PdfReader instance.
+						PdfReader pdfReader = new PdfReader(resumeList[i].getBytes());	
+					 
+						//Get the number of pages in pdf.
+						int pages = pdfReader.getNumberOfPages(); 
 					
-					String Emp_details = resumeData.substring(0, resumeData.indexOf("CAREER OBJECTIVE")-2);
-					
-					String Emp_details_list[] = Emp_details.split("\n");
-					
-					name = Emp_details_list[0];
-					contact = Emp_details_list[1].split(" ")[1];
-					userId = Emp_details_list[2].split(" ")[1];
-					
-					pdfReader.close();
+						//Iterate the pdf through pages.
+						for(int page=1; page<=pages; page++) 
+						{ 
+						  //Extract the page content using PdfTextExtractor.
+						  String pageContent = PdfTextExtractor.getTextFromPage(pdfReader, page);
+						  text.append(pageContent);
+					    }
+						String resumeData = text.toString();
+						
+						String Emp_details = resumeData.substring(0, resumeData.indexOf("CAREER OBJECTIVE")-2);
+						
+						String Emp_details_list[] = Emp_details.split("\n");
+						
+						name = Emp_details_list[0];
+						contact = Emp_details_list[1].split(" ")[1];
+						if(contact.length()!=10 || contact.length()!=13)
+						{
+							throw new Exception("Invalid Mobile Number");
+						}
+						userId = Emp_details_list[2].split(" ")[1];
+						
+						pdfReader.close();
+					}
+					catch(Exception e)
+					{
+						log.info(resumeList[i].getOriginalFilename());
+						incorrectProfiles.add(resumeList[i].getOriginalFilename());
+						log.info(e.getMessage());
+						continue;
+					}
 					
 					List<UserProfile> profiles = uploadProfileRepository.findUserProfiles(userId);
 					
@@ -76,10 +92,9 @@ public class UploadProfileImpl {
 				}
 				if(status == resumeList.length) {
 					log.info("Exiting UploadProfileImpl.uploadProfile()--->true");
-					return true;
 				}
 				log.info("Exiting UploadProfileImpl.uploadProfile()--->false");
-				return false;	
+				return incorrectProfiles;
 		} 
 			catch(Exception e) {
 				e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.gcp.recruitRight.Controllers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,18 @@ public class UploadProfileController {
 	
 	@PostMapping("/uploadProfile")
 	public ResponseEntity<BaseResponse> uploadProfile(@RequestParam("resumeList") MultipartFile[] resumeList){
-		log.info("Entering UploadProfileControlelr.uploadProfile()");
+		log.info("Entering UploadProfileController.uploadProfile()");
 		BaseResponse baseResponse = new BaseResponse();
 		
 		try {
-			baseResponse.setBooleanMsg(uploadProfileImpl.uploadProfile(resumeList));
+			List<String> incorrectProfiles = uploadProfileImpl.uploadProfile(resumeList);
+			if(incorrectProfiles.size()==0)
+				baseResponse.setBooleanMsg(true);
+			else
+			{
+				baseResponse.setBooleanMsg(true);
+				baseResponse.setIncorrectProfiles(incorrectProfiles);
+			}
 		} catch (Exception e) {
 			baseResponse.setExceptionMessage(e.getMessage());
 			baseResponse.setBooleanMsg(false);

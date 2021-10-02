@@ -47,7 +47,7 @@ public class LoginServiceRepository {
 	public boolean verifyUser(LoginServiceRequest loginServiceRequest) throws Exception
 	{
 		log.info("Entering LoginServiceRepository.verifyUser()");
-		List<User> users = jdbcTemplate.query("SELECT * FROM USER where userId=?", new BeanPropertyRowMapper(User.class), loginServiceRequest.getUserId());
+		List<User> users = jdbcTemplate.query("SELECT * FROM USER where userId=?", new BeanPropertyRowMapper(User.class), loginServiceRequest.getUserId().toLowerCase());
 		
 		if(users.size()==0)
 			throw new Exception("Email not registered...Please SignUp to continue");
@@ -63,20 +63,5 @@ public class LoginServiceRepository {
 		throw new Exception("Please enter correct password!");
 	}
 	
-//	public String fetchSessionId(String userId)
-//	{
-//		log.info("Entering LoginServiceRepository.fetchSessionId()");
-//		String sql1 = "SELECT * FROM SESSION where userId=?";
-//		List<Session> sessions = jdbcTemplate.query(sql1, new BeanPropertyRowMapper(Session.class),userId);
-//		if(sessions.size()>0)
-//		{
-//			String sql2 = "SELECT sessionId from SESSION where userId=?";
-//			String sessionId = jdbcTemplate.queryForObject(sql2, String.class,userId);
-//			log.info("Exitng LoginServiceRepository.fetchSessionId()");
-//			return sessionId;
-//		}
-//		return null;
-//		
-//	}
 
 }

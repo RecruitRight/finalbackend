@@ -42,7 +42,7 @@ public class ProcessProfileImpl {
 	
 	Logger log = LoggerFactory.getLogger(ProcessProfileImpl.class);
 	
-	@Scheduled(cron = "0 04 00 * * ?") 				// Scheduled at 10:00AM every day(second minute hour day-of-month month day-of-week)
+	@Scheduled(cron = "0 15 01 * * ?") 				// Scheduled at 10:00AM every day(second minute hour day-of-month month day-of-week)
 	public void processProfiles() throws IOException {
 		
 		List<Requirement> requirements = processProfileRepository.fetchActiveRequirements();
