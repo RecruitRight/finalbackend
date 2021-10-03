@@ -9,6 +9,7 @@ import com.gcp.recruitRight.models.UserProfile;
 
 public class BaseResponse {
 	
+	private int reqId;
 	private User user;
 	private Boolean booleanMsg;
 	private String exceptionMessage;
@@ -22,8 +23,12 @@ public class BaseResponse {
 	private List<UserProfileResponse> userProfileResponse;
 	private List<String> incorrectProfiles;
 	
-
-	
+	public int getReqId() {
+		return reqId;
+	}
+	public void setReqId(int reqId) {
+		this.reqId = reqId;
+	}
 	public String getJwtToken() {
 		return jwtToken;
 	}

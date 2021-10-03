@@ -19,18 +19,17 @@ public class PostRequirementImpl {
 	
 	Logger log = LoggerFactory.getLogger(PostRequirementImpl.class);
 	
-	public Boolean postRequirement(PostRequirementRequest postRequirementRequest) throws Exception{
+	public int postRequirement(PostRequirementRequest postRequirementRequest) throws Exception{
 		try {
 			log.info("Entering PoastRequirementImpl.postRequirement()");
-			int status = postRequirementRepository.postRequirement(postRequirementRequest);
-			log.info("Exiting PoastRequirementImpl.postRequirement()");
-			if(status==1)
-				return true;
-			return false;
+			postRequirementRepository.postRequirement(postRequirementRequest);
+			int reqId = postRequirementRepository.getReqId();
+			log.info("Exiting PostRequirementImpl.postRequirement()");
+			return reqId;
 		} 
 		catch(Exception e) {
 			log.error("Exception occured in postRequirementImpl.postRequirement()");
-			throw new Exception("Invalid session");
+			throw new Exception("Error while posting Requirement");
 		}
 	}
 

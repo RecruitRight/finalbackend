@@ -66,7 +66,9 @@ public class UploadProfileImpl {
 						
 						name = Emp_details_list[0];
 						contact = Emp_details_list[1].split(" ")[1];
-						if(contact.length()!=10 || contact.length()!=13)
+						log.info("Contact number lenghth");
+						System.out.println(contact.length());
+						if(contact.length()!=10)
 						{
 							throw new Exception("Invalid Mobile Number");
 						}

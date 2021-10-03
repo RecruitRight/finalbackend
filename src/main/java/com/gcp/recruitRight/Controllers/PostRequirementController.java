@@ -29,7 +29,8 @@ public class PostRequirementController {
 		log.info("Entering PoastRequirementController.postRequirement()");
 		BaseResponse baseResponse = new BaseResponse();
 		try {
-			baseResponse.setBooleanMsg(postRequirementImpl.postRequirement(postRequirementRequest));
+			baseResponse.setReqId(postRequirementImpl.postRequirement(postRequirementRequest));
+			baseResponse.setBooleanMsg(true);
 		} catch (Exception e) {
 			baseResponse.setExceptionMessage(e.getMessage());
 			baseResponse.setBooleanMsg(false);

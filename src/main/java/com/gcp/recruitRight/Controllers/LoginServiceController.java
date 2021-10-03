@@ -61,7 +61,7 @@ public class LoginServiceController {
 		return ResponseEntity.ok(baseResponse);
 	}
 	
-	@GetMapping("/user/logout")
+	@PostMapping("/user/logout")
 	public ResponseEntity<BaseResponse> logout(){
 		log.info("Entering LoginServiceController.logout()");
 		BaseResponse baseResponse = new BaseResponse();

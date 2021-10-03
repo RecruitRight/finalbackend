@@ -18,4 +18,10 @@ public class PostRequirementRepository {
 		return jdbcTemplate.update(sql,UsernameStorage.getUserId(),postRequirementRequest.getIsu(),postRequirementRequest.getSubIsu(),postRequirementRequest.getProjectName(),postRequirementRequest.getJobRole(),postRequirementRequest.getJobRoleType(),postRequirementRequest.getTechStack(),postRequirementRequest.getExperience());
 	}
 	
+	public int getReqId()
+	{
+		String sql = "SELECT MAX(reqId) from REQUIREMENTS";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
 }
