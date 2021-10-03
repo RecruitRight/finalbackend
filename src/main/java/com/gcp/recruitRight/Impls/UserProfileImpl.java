@@ -29,6 +29,7 @@ import com.gcp.recruitRight.models.ProfileScore;
 import com.gcp.recruitRight.models.Requirement;
 import com.gcp.recruitRight.models.User;
 import com.gcp.recruitRight.models.UserProfile;
+import com.gcp.recruitRight.response.UserProfileData;
 import com.gcp.recruitRight.response.UserProfileResponse;
 import com.gcp.recruitRight.response.UserProfileStatus;
 
@@ -390,69 +391,135 @@ public class UserProfileImpl {
 		}
 	}
 	
-	public List<UserProfile> fetchAllActiveUserProfiles() throws Exception
+	public List<UserProfileData> fetchAllActiveUserProfiles() throws Exception
 	{
+		List<UserProfileData> userProfiles = new ArrayList<UserProfileData>();
 		try {
 		List<UserProfile> activeUserProfiles = userProfileRepository.fetchAllActiveUserProfiles();
-		return activeUserProfiles;
+		for(UserProfile active:activeUserProfiles)
+		{
+			UserProfileData upd = new UserProfileData();
+			upd.setUserId(active.getUserId());
+			upd.setName(active.getName());
+			upd.setContact(active.getContact());
+			upd.setUploader(active.getUploader());
+			upd.setStatus(active.getStatus());
+			userProfiles.add(upd);
+		}
+		return userProfiles;
 		}
 		catch(Exception e) {
 			throw new Exception("Cannot fetch data");
 		}
 	}
 	
-	public List<UserProfile> fetchAllSelectedUserProfiles() throws Exception
+	public List<UserProfileData> fetchAllSelectedUserProfiles() throws Exception
 	{
+		List<UserProfileData> userProfiles = new ArrayList<UserProfileData>();
 		try {
 		List<UserProfile> closedUserProfiles = userProfileRepository.fetchAllSelectedUserProfiles();
-		return closedUserProfiles;
+		for(UserProfile closed:closedUserProfiles)
+		{
+			UserProfileData upd = new UserProfileData();
+			upd.setUserId(closed.getUserId());
+			upd.setName(closed.getName());
+			upd.setContact(closed.getContact());
+			upd.setUploader(closed.getUploader());
+			upd.setStatus(closed.getStatus());
+			userProfiles.add(upd);
+		}
+		return userProfiles;
 		}
 		catch(Exception e) {
 			throw new Exception("Cannot fetch data");
 		}
 	}
 	
-	public List<UserProfile> fetchAllInProgressUserProfiles() throws Exception
+	public List<UserProfileData> fetchAllInProgressUserProfiles() throws Exception
 	{
+		List<UserProfileData> userProfiles = new ArrayList<UserProfileData>();
 		try {
 		List<UserProfile> inProgressUserProfiles = userProfileRepository.fetchAllInProgressUserProfiles();
-		return inProgressUserProfiles;
+		for(UserProfile inProgress:inProgressUserProfiles)
+		{
+			UserProfileData upd = new UserProfileData();
+			upd.setUserId(inProgress.getUserId());
+			upd.setName(inProgress.getName());
+			upd.setContact(inProgress.getContact());
+			upd.setUploader(inProgress.getUploader());
+			upd.setStatus(inProgress.getStatus());
+			userProfiles.add(upd);
+		}
+		return userProfiles;
 		}
 		catch(Exception e) {
 			throw new Exception("Cannot fetch data");
 		}
 	}
 	
-	public List<UserProfile> fetchAllActiveUserProfilesById() throws Exception
+	public List<UserProfileData> fetchAllActiveUserProfilesById() throws Exception
 	{
+		List<UserProfileData> userProfiles = new ArrayList<UserProfileData>();
 		try {
 			String uploader = UsernameStorage.getUserId();
 			List<UserProfile> activeUserProfiles = userProfileRepository.fetchAllActiveUserProfilesById(uploader);
-			return activeUserProfiles;
-		}
+			for(UserProfile active:activeUserProfiles)
+			{
+				UserProfileData upd = new UserProfileData();
+				upd.setUserId(active.getUserId());
+				upd.setName(active.getName());
+				upd.setContact(active.getContact());
+				upd.setUploader(active.getUploader());
+				upd.setStatus(active.getStatus());
+				userProfiles.add(upd);
+			}
+			return userProfiles;
+			}
 		catch(Exception e) {
 			throw new Exception("Cannot fetch data");
 		}
 	}
 	
-	public List<UserProfile> fetchAllSelectedUserProfilesById() throws Exception
+	public List<UserProfileData> fetchAllSelectedUserProfilesById() throws Exception
 	{
+		List<UserProfileData> userProfiles = new ArrayList<UserProfileData>();
 		try {
 			String uploader = UsernameStorage.getUserId();
 			List<UserProfile> closedUserProfiles = userProfileRepository.fetchAllSelectedUserProfilesById(uploader);
-			return closedUserProfiles;
+			for(UserProfile closed:closedUserProfiles)
+			{
+				UserProfileData upd = new UserProfileData();
+				upd.setUserId(closed.getUserId());
+				upd.setName(closed.getName());
+				upd.setContact(closed.getContact());
+				upd.setUploader(closed.getUploader());
+				upd.setStatus(closed.getStatus());
+				userProfiles.add(upd);
+			}
+			return userProfiles;
 		}
 		catch(Exception e) {
 			throw new Exception("Cannot fetch data");
 		}
 	}
 	
-	public List<UserProfile> fetchAllInProgressUserProfilesById() throws Exception
+	public List<UserProfileData> fetchAllInProgressUserProfilesById() throws Exception
 	{
+		List<UserProfileData> userProfiles = new ArrayList<UserProfileData>();
 		try {
 			String uploader = UsernameStorage.getUserId();
 			List<UserProfile> inProgressUserProfiles = userProfileRepository.fetchAllInProgressUserProfilesById(uploader);
-			return inProgressUserProfiles;
+			for(UserProfile inProgress:inProgressUserProfiles)
+			{
+				UserProfileData upd = new UserProfileData();
+				upd.setUserId(inProgress.getUserId());
+				upd.setName(inProgress.getName());
+				upd.setContact(inProgress.getContact());
+				upd.setUploader(inProgress.getUploader());
+				upd.setStatus(inProgress.getStatus());
+				userProfiles.add(upd);
+			}
+			return userProfiles;
 		}
 		catch(Exception e) {
 			throw new Exception("Cannot fetch data");

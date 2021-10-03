@@ -100,7 +100,10 @@ public class UserProfileRepository {
 		String sql = "SELECT * FROM REQUIREMENTS where reqId in (SELECT reqId FROM PROFILESCORES where userId=? and status=?)";
 		List<Requirement> reqs = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Requirement.class),userId,"Selected");
 		for(Requirement r:reqs)
+		{
+			System.out.println(r.getReqId()+" "+r.getProjectName());
 			return r;
+		}
 		return null;
 	}
 	

@@ -17,7 +17,7 @@ public class BaseResponse {
 	private Requirement requirement;
 	private List<User> users;
 	private List<Requirement> requirements;
-	private List<UserProfile> userProfiles;
+	private List<UserProfileData> userProfiles;
 	private List<UserProfileStatus> userProfileStatusList;
 	private List<Feedback> feedbackList;
 	private List<UserProfileResponse> userProfileResponse;
@@ -71,10 +71,10 @@ public class BaseResponse {
 	public void setRequirements(List<Requirement> requirements) {
 		this.requirements = requirements;
 	}
-	public List<UserProfile> getUserProfiles() {
+	public List<UserProfileData> getUserProfiles() {
 		return userProfiles;
 	}
-	public void setUserProfiles(List<UserProfile> userProfiles) {
+	public void setUserProfiles(List<UserProfileData> userProfiles) {
 		this.userProfiles = userProfiles;
 	}
 	public List<UserProfileStatus> getUserProfileStatusList() {
